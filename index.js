@@ -54,6 +54,7 @@ function showCity(city) {
 function handleSubmit(event) {
   event.preventDefault();
   let input = document.querySelector("#city-input");
+  showCity(input.value);
 }
 
 let submitButton = document.querySelector("form");
