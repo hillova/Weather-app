@@ -1,18 +1,30 @@
-function showCity(event) {
-  event.preventDefault();
-  let input = document.querySelector("#city");
-  let heading = document.querySelector("h1");
-  heading.innerHTML = `${input.value}`;
-  let city = input.value;
-  let units = "metric";
-  let apiKey = "9d6be2d6ae989b89ba01f7b622ef3053";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-  axios.get(apiUrl).then(changeData);
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDate()];
+  return `${day} ${hours}:${minutes}`;
 }
 
 function changeData(response) {
   let tempElement = document.querySelector(".temperature");
-  tempElement.innerHTML = Math.round(response.data.main.temp);
+  let temperature = Math.round(response.data.main.temp);
+  let cityElement = document.querySelector("#city");
+  cityElement.innerHTML = response.data.name;
+
+  tempElement.innerHTML = `${temperature}°C`;
   let windElement = document.querySelector("#wind");
   let wind = response.data.wind.speed;
   windElement.innerHTML = `${wind} km/h`;
@@ -28,28 +40,24 @@ function changeData(response) {
     "src",
     `http://openweathermap.org/img/wn/${weatherImage}.png`
   );
+  let dateElement = document.querySelector("#last-updated");
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
 }
 
-let now = new Date();
-
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let day = days[now.getDay()];
-let minutes = now.getMinutes();
-if (minutes < 10) {
-  minutes = `0${minutes}`;
+function showCity(city) {
+  let units = "metric";
+  let apiKey = "9d6be2d6ae989b89ba01f7b622ef3053";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(changeData);
 }
-let hours = now.getHours();
 
-let currentDate = document.querySelector("h2");
-currentDate.innerHTML = `${day}, ${hours}:${minutes}`;
+function handleSubmit(event) {
+  event.preventDefault();
+  let input = document.querySelector("#city-input");
+  showCity(input.value);
+}
 
 let submitButton = document.querySelector("form");
-submitButton.addEventListener("submit", showCity);
+submitButton.addEventListener("submit", handleSubmit);
+
+showCity("Prague");
