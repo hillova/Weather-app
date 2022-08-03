@@ -18,7 +18,7 @@ body {
   max-width: 600px;
   display: block;
   margin: 60px auto;
-  padding-bottom: 150px;
+  margin-bottom: 0px;
 }
 
 h1,
@@ -106,4 +106,32 @@ a {
   font-weight: 500;
   color: #ff8c8c;
   text-decoration: none;
+}
+
+.weather-forecast {
+  margin: 40px 20px;
+  border-radius: 6px;
+  background-color: rgb(255, 255, 255, 0.5);
+  padding: 10px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.daily-forecast {
+  padding: 12px;
+  text-align: center;
+}
+
+.forecast-day {
+  font-size: 16px;
+  color: #4b5d67;
+}
+
+.max-temp {
+  font-size: 16px;
+}
+
+.min-temp {
+  opacity: 0.6;
+  font-size: 15px;
 }
