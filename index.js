@@ -57,7 +57,30 @@ function handleSubmit(event) {
   showCity(input.value);
 }
 
+function showForecast() {
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHtml = `<div class="row">`;
+  let days = ["Thu", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHtml =
+      forecastHtml +
+      `<div class="col-2 daily-forecast">
+        <div class="forecast-day">${day}</div>
+        <img src="http://openweathermap.org/img/wn/01d.png" width="50px" />
+        <div class="forecast-day-temp">
+          <span class="max-temp">18°</span>
+          <span class="min-temp">12°</span>
+        </div>
+     </div>`;
+  });
+  forecastHtml = forecastHtml + `</div>`;
+
+  forecastElement.innerHTML = forecastHtml;
+}
+
 let submitButton = document.querySelector("form");
 submitButton.addEventListener("submit", handleSubmit);
 
 showCity("Prague");
+showForecast();
